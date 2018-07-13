@@ -1,7 +1,10 @@
 <!--Recursive tree component-->
 <ul class="tree">
   <li *ngFor="let node of nodes" (click)="onNodeClick($event, node)">
-    <div class="node {{node.level}}" [style.paddingLeft]="(node.level * 8) + 'px'">{{ node.entity.id }}:{{ node.entity.name }}</div>
+    <div class="node {{node.level}}" [style.paddingLeft]="(node.level * 8) + 'px'">
+      {{ node.entity.id }}:{{ node.entity.name }}
+      <span class="node-add" (click)="onAddNodeClick($event, node)">+</span>
+    </div>
     <div class="sub-tree" *ngIf="node.hasChildren"  [style.display]="node.isOpen ? 'block' : 'none'">
       <app-tree [nodes]="node.children"></app-tree>
     </div>

@@ -40,4 +40,10 @@ export class TreeComponent implements OnInit {
 
   }
 
+  onAddNodeClick(event: MouseEvent, node): void {
+    event.preventDefault();
+    event.stopPropagation();
+    console.log('Add node for ', node);
+  }
+
 }

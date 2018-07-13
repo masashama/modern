@@ -36,7 +36,7 @@ body {
   background: white;
   padding: 8px 32px;
   border-bottom: 1px solid #eaeaea;
-  font-size: .8em;
+  font-size: .8rem;
 }
 
 .node{
@@ -47,4 +47,15 @@ body {
 .node:hover{
   cursor: pointer;
   background: #e2e2e2;
+}
+
+.node-add{
+  position: absolute;
+  right: 8px;
+  font-weight: bold;
+  color: #d6d6d6;
+}
+
+.node-add:hover {
+  color: #737373;
 }
