@@ -3,6 +3,15 @@
   <app-tree [nodes]="categories"></app-tree>
 </div>
 
+<div *ngIf="addNodeAddFormState" class="modal">
+  <div class="modal-body">
+    <b>Add category for: {{ addNodeAddFormParentNode.entity.name }}</b>
+    <form action="">
+      <input type="text" placeholder="Category name"> <button> Okay </button> <button> Exit </button>
+    </form>
+  </div>
+</div>
+
 
 <div style="text-align:center">
   <h1>

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Node } from '../../models/node.model';
 import {ApiService} from '../../services/api.service';
+import {AddNodeFormService} from '../../services/add-node-form.service';
 
 
 @Component({
@@ -13,7 +14,8 @@ export class TreeComponent implements OnInit {
   @Input() nodes: Node<any>;
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private addNodeFormService: AddNodeFormService,
   ) { }
 
   ngOnInit() {
@@ -48,7 +50,7 @@ export class TreeComponent implements OnInit {
   onAddNodeClick(event: MouseEvent, node): void {
     event.preventDefault();
     event.stopPropagation();
-    console.log('Add node for ', node);
+    this.addNodeFormService.callForm(node);
   }
 
 }
