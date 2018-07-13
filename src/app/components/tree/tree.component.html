@@ -1,6 +1,6 @@
 <!--Recursive tree component-->
-<ul>
+<ul class="tree">
   <li *ngFor="let node of nodes">
-    {{ node.entity.id }}:{{ node.entity.name }}
+    <div class="node">{{ node.entity.id }}:{{ node.entity.name }}</div>
   </li>
 </ul>
