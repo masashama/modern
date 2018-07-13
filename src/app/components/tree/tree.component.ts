@@ -19,6 +19,11 @@ export class TreeComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Toggle node view
+   * @param {MouseEvent} event
+   * @param {Node<any>} node
+   */
   onNodeClick(event: MouseEvent, node: Node<any>) {
     event.preventDefault();
     event.stopPropagation();
