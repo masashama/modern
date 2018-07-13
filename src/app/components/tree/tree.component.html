@@ -2,6 +2,8 @@
 <ul class="tree">
   <li *ngFor="let node of nodes" (click)="onNodeClick($event, node)">
     <div class="node">{{ node.entity.id }}:{{ node.entity.name }}</div>
-    <app-tree *ngIf="node.hasChildren" [nodes]="node.children"></app-tree>
+    <div class="sub-tree" *ngIf="node.hasChildren">
+      <app-tree [nodes]="node.children"></app-tree>
+    </div>
   </li>
 </ul>
