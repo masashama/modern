@@ -5,6 +5,7 @@ import {Observable, of} from 'rxjs';
 import { ICategory } from '../app.interface';
 
 import { categoryMock } from '../mock/entity.mock';
+import Category from '../models/category.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +23,10 @@ export class ApiService {
    * @param {number} parent
    * @returns {Observable<Array<ICategory>>}
    */
-  getCategoryes(parent: number = null): Observable<Array<ICategory>> {
+  getCategories(parent: number = null): Observable<Array<ICategory>> {
     return of(categoryMock
+      .map( entity => new Category(entity))
       .filter( entity => entity.parent === parent )
-      .map( entity => <ICategory>entity)
     );
   }
 
