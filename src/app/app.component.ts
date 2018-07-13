@@ -10,7 +10,7 @@ import {Node} from './models/node.model';
 })
 export class AppComponent implements OnInit {
   title = 'app';
-  categories: Array<Node<ICategory>>;
+  private categories: Array<Node<ICategory>>;
 
   constructor(
     private apiService: ApiService,
@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
      */
     this.apiService.getCategories().subscribe(categories => {
       this.categories = categories.map( category => new Node(category));
-      console.log('Categories', this.categories);
     });
   }
 

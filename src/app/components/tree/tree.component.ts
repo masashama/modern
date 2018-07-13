@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Node } from '../../models/node.model';
+import {ApiService} from '../../services/api.service';
 
 
 @Component({
@@ -11,9 +12,23 @@ export class TreeComponent implements OnInit {
 
   @Input() nodes: Node<any>;
 
-  constructor() { }
+  constructor(
+    private apiService: ApiService
+  ) { }
 
   ngOnInit() {
+  }
+
+  onNodeClick(event: MouseEvent, node: Node<any>) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    console.log('Click by node');
+    this.apiService.getCategories(node.entity.id).subscribe( categories => {
+      categories.map( category => node.addChild(category));
+    });
+    console.log('Node children', node.children);
+
   }
 
 }

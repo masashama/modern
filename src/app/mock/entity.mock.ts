@@ -41,17 +41,17 @@ export const categoryMock = [
   {
     id: 9,
     name: 'RGP',
-    parent: 1,
+    parent: 4,
   },
   {
     id: 10,
     name: 'FPS',
-    parent: 1,
+    parent: 8,
   },
   {
     id: 11,
     name: 'TPS',
-    parent: 1,
+    parent: 8,
   }
 ];
 
