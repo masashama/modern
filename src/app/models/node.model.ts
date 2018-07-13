@@ -30,5 +30,17 @@ export class Node<T> {
     this.children.push( new Node<T>(entity, this) );
   }
 
+  /**
+   * Set children
+   * @param {Array<T>} entities
+   */
+  setChildren(entities: Array<T>): void {
+    this.children = entities.map( entity => new Node<T>(entity));
+  }
+
+  get hasChildren(): boolean {
+    return !!this.children.length;
+  }
+
 
 }

@@ -25,7 +25,7 @@ export class TreeComponent implements OnInit {
 
     console.log('Click by node');
     this.apiService.getCategories(node.entity.id).subscribe( categories => {
-      categories.map( category => node.addChild(category));
+      node.setChildren(categories);
     });
     console.log('Node children', node.children);
 
