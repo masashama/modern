@@ -23,10 +23,19 @@ export class TreeComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
+    /**
+     * If node close then fetch children and open node
+     * else close node
+     */
     console.log('Click by node');
-    this.apiService.getCategories(node.entity.id).subscribe( categories => {
-      node.setChildren(categories);
-    });
+    if ( !node.isOpen ) {
+      this.apiService.getCategories(node.entity.id).subscribe( categories => {
+        node.setChildren(categories);
+        node.isOpen = true;
+      });
+    } else {
+      node.isOpen = false;
+    }
     console.log('Node children', node.children);
 
   }

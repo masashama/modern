@@ -5,6 +5,13 @@ export class Node<T> {
 
   entity: T;
   children: Array<Node<T>>;
+  isOpen: boolean;
+
+  /**
+   * Use for calculate padding in tree
+   * @type {number}
+   */
+  level = 1;
 
   private readonly parent: Node<T>;
 
@@ -12,6 +19,12 @@ export class Node<T> {
     this.entity = entity;
     this.parent = parent;
     this.children = [];
+    this.isOpen = false;
+
+    if ( this.parent ) {
+      this.level = this.parent.level + 1;
+    }
+
   }
 
   /**
@@ -35,7 +48,7 @@ export class Node<T> {
    * @param {Array<T>} entities
    */
   setChildren(entities: Array<T>): void {
-    this.children = entities.map( entity => new Node<T>(entity));
+    this.children = entities.map( entity => new Node<T>(entity, this));
   }
 
   get hasChildren(): boolean {
