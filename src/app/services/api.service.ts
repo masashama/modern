@@ -63,4 +63,10 @@ export class ApiService {
     return of(updatedProduct);
 
   }
+
+  addProduct(result: IProduct): Observable<IProduct> {
+    const product = {...result};
+    pMock.push(product);
+    return of(product);
+  }
 }

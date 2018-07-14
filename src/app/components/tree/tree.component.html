@@ -1,14 +1,13 @@
 <!--Recursive tree component-->
 <ul class="tree">
   <li *ngFor="let node of nodes">
-    <div class="node" [style.paddingLeft]="(node.level * 8) + 'px'" *ngIf="node.entity.hasOwnProperty('isFood'); else categoryNode">
+    <div class="node" (click)="onEditProduct($event, node)" [style.paddingLeft]="(node.level * 8) + 'px'" *ngIf="node.entity.hasOwnProperty('isFood'); else categoryNode">
        - {{ node.entity.name }}
-      <span class="node-add" (click)="onEditProduct($event, node)">edit</span>
     </div>
     <ng-template #categoryNode>
       <div class="node" [style.paddingLeft]="(node.level * 8) + 'px'" (click)="onNodeClick($event, node)">
         {{ node.entity.name }}
-        <span class="node-add" (click)="onAddNodeClick($event, node)">+</span>
+        <span class="node-add" ><span (click)="onAddProduct($event, node)">+p</span><span (click)="onAddNodeClick($event, node)">+c</span></span>
       </div>
     </ng-template>
     <div class="sub-tree" *ngIf="node.hasChildren"  [style.display]="node.isOpen ? 'block' : 'none'">

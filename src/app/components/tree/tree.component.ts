@@ -125,4 +125,19 @@ export class TreeComponent implements OnInit {
       });
   }
 
+  onAddProduct($event: MouseEvent, node: Node<ICategory>) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const subscribe$ = this.productFormService.callNewForm(node.entity)
+      .subscribe( result => {
+        this.apiService.addProduct(result).subscribe( product => {
+          this.productFormService.category.next(null);
+          this.updateNode(node);
+        });
+        subscribe$.unsubscribe();
+      });
+
+    console.log('Add product', node);
+  }
 }

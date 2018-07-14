@@ -1,7 +1,7 @@
 <form (submit)="onSubmit()" #productForm="ngForm" *ngIf="product">
 
-  <fieldset>
-    Category:
+  <fieldset *ngIf="category">
+    Category: {{ category.name }}
   </fieldset>
 
   <fieldset>
@@ -39,7 +39,7 @@
 
   <fieldset>
     <button type="submit">Сохранить</button>
-    <button type="button">Отмена</button>
+    <button type="button" (click)="onResetForm()">Отмена</button>
   </fieldset>
 
 </form>

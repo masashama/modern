@@ -61,7 +61,11 @@ body {
   color: #d6d6d6;
 }
 
-.node-add:hover {
+.node-add span {
+  margin: 0 8px;
+}
+
+.node-add span:hover {
   color: #737373;
 }
 
