@@ -7,9 +7,9 @@ export interface IProduct {
   name: string;
   cost: number;
   isFood: boolean;
-  url: string;
-  brand: string;
-  color: string;
+  url?: string;
+  brand?: string;
+  color?: string;
 }
 
 /**

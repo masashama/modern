@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 
-import { ICategory } from '../app.interface';
-
-import { categoryMock } from '../mock/entity.mock';
+import {ICategory, IProduct} from '../app.interface';
+import { Node } from '../models/node.model';
 import Category from '../models/category.model';
-import {Node} from '../models/node.model';
+import Product from '../models/product.model';
+
+import { categoryMock, productMock } from '../mock/entity.mock';
 
 
-let mock = categoryMock;
+const mock = categoryMock;
+const pMock = productMock;
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +33,13 @@ export class ApiService {
     return of(mock
       .map( entity => new Category(entity))
       .filter( entity => entity.parent === parent )
+    );
+  }
+
+  getProducts(category: number): Observable<Array<IProduct>> {
+    return of(pMock
+      .map( product => new Product(product))
+      .filter(product => product.category == category)
     );
   }
 

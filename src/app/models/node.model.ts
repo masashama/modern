@@ -1,6 +1,9 @@
 /**
  * Generic class Node of tree
  */
+import {ICategory} from '../app.interface';
+import Category from './category.model';
+
 export class Node<T> {
 
   entity: T;
@@ -39,16 +42,16 @@ export class Node<T> {
    * Add child node
    * @param {T} entity
    */
-  addChild(entity: T): void {
-    this.children.push( new Node<T>(entity, this) );
+  addChild(entity: any): void {
+    this.children.push( new Node<any>(entity, this) );
   }
 
   /**
    * Set children
    * @param {Array<T>} entities
    */
-  setChildren(entities: Array<T>): void {
-    this.children = entities.map( entity => new Node<T>(entity, this));
+  setChildren(entities: Array<any>): void {
+    this.children = entities.map( entity => new Node<T>(entity, this)).sort((a, b) => a.entity instanceof Category ? -1 : 1 );
   }
 
   get hasChildren(): boolean {

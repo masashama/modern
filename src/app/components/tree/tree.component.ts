@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Node } from '../../models/node.model';
 import {ApiService} from '../../services/api.service';
 import {AddNodeFormService} from '../../services/add-node-form.service';
+import {ICategory, IProduct} from '../../app.interface';
 
 
 @Component({
@@ -16,7 +17,11 @@ export class TreeComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private addNodeFormService: AddNodeFormService,
-  ) { }
+  ) {
+
+    this.updateNode = this.updateNode.bind(this);
+
+  }
 
   ngOnInit() {
   }
@@ -54,12 +59,11 @@ export class TreeComponent implements OnInit {
    * @param {Node<any>} node
    */
   private updateNode(node: Node<any>) {
-    this.apiService.getCategories(node.entity.id).subscribe( categories => {
-      node.setChildren(categories);
-      if ( !node.isOpen ) {
-        node.isOpen = true;
-      }
-    });
+    console.log('Node for update', node);
+    node.setChildren(this.fetchChildNodes(node));
+    if ( !node.isOpen ) {
+      node.isOpen = true;
+    }
   }
 
   /**
@@ -72,13 +76,29 @@ export class TreeComponent implements OnInit {
      * else close node
      */
     if ( !node.isOpen ) {
-      this.apiService.getCategories(node.entity.id).subscribe( categories => {
-        node.setChildren(categories);
-        node.isOpen = true;
-      });
+      node.setChildren(this.fetchChildNodes(node));
+      node.isOpen = true;
     } else {
       node.isOpen = false;
     }
   }
+
+  /**
+   * Fetch Categories and Products return merged array
+   * @param {Node<any>} node
+   * @returns {Array<IProduct | ICategory>}
+   */
+  private fetchChildNodes(node: Node<any>): Array<IProduct|ICategory> {
+    let _categories = [];
+    let _products = [];
+    this.apiService.getCategories(node.entity.id).subscribe( categories => {
+      _categories = categories;
+    });
+    this.apiService.getProducts(node.entity.id).subscribe( products => {
+      _products = products;
+    });
+    return [..._categories, ..._products];
+  }
+
 
 }
