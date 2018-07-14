@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Node} from '../models/node.model';
 import {ICategory} from '../app.interface';
 import {ApiService} from './api.service';
@@ -11,14 +11,21 @@ export class AddNodeFormService {
 
   private parentNode = new Subject<Node<ICategory>>();
   state = new Subject<boolean>();
+  result = new Subject<ICategory>();
 
   constructor(
     private apiService: ApiService
-  ) { }
+  ) {
 
-  callForm(node: Node<ICategory>) {
+    this.state.next(false);
+
+  }
+
+  callForm(node: Node<ICategory>): Observable<ICategory> {
+    console.log('Node click', node);
     this.state.next(true);
     this.parentNode.next(node);
+    return this.result;
   }
 
   getNode(): Subject<Node<ICategory>> {
@@ -29,6 +36,7 @@ export class AddNodeFormService {
     this.apiService.addCategory(entity, parent).subscribe( result => {
       this.parentNode.next(null);
       this.state.next(false);
+      this.result.next(result);
     });
   }
 }

@@ -18,7 +18,7 @@ export class ApiService {
 
   constructor(
     private httpService: HttpClient
-  ) { }
+  ) {}
 
   /**
    * Get categories by parent ID
@@ -35,8 +35,9 @@ export class ApiService {
   }
 
   addCategory(entity: ICategory, parent: Node<ICategory>) {
-    mock = [...mock, {...entity, parent: parent.entity.id, id: mock[mock.length - 1].id + 1}];
-    console.log(mock);
-    return of(mock);
+    const newId = mock[mock.length - 1].id + 1;
+    const newEntity = {...entity, id: newId, parent: parent.entity.id};
+    mock.push(newEntity);
+    return of(newEntity);
   }
 }

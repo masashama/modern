@@ -29,12 +29,48 @@ export class TreeComponent implements OnInit {
   onNodeClick(event: MouseEvent, node: Node<any>) {
     event.preventDefault();
     event.stopPropagation();
+    this.openNode(node);
+  }
 
+  /**
+   * Call for for add subcategory
+   * @param {MouseEvent} event
+   * @param {Node<any>} node
+   */
+  onAddNodeClick(event: MouseEvent, node: Node<any>): void {
+    event.preventDefault();
+    event.stopPropagation();
+    const subscribe$ = this.addNodeFormService.callForm(node).subscribe(entity => {
+      this.updateNode(node);
+
+      // unsubscribe form form
+      subscribe$.unsubscribe();
+    });
+
+  }
+
+  /**
+   * Update node, if node close then open
+   * @param {Node<any>} node
+   */
+  private updateNode(node: Node<any>) {
+    this.apiService.getCategories(node.entity.id).subscribe( categories => {
+      node.setChildren(categories);
+      if ( !node.isOpen ) {
+        node.isOpen = true;
+      }
+    });
+  }
+
+  /**
+   * Toggle node
+   * @param {Node<any>} node
+   */
+  private openNode(node: Node<any>) {
     /**
      * If node close then fetch children and open node
      * else close node
      */
-    console.log('Click by node');
     if ( !node.isOpen ) {
       this.apiService.getCategories(node.entity.id).subscribe( categories => {
         node.setChildren(categories);
@@ -43,14 +79,6 @@ export class TreeComponent implements OnInit {
     } else {
       node.isOpen = false;
     }
-    console.log('Node children', node.children);
-
-  }
-
-  onAddNodeClick(event: MouseEvent, node): void {
-    event.preventDefault();
-    event.stopPropagation();
-    this.addNodeFormService.callForm(node);
   }
 
 }

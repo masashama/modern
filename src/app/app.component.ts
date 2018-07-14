@@ -33,14 +33,16 @@ export class AppComponent implements OnInit {
     });
 
     /**
+     * State of modal window
+     */
+    this.addNodeFormService.state.subscribe( state => {
+      this.categoryModalState = state;
+    });
+
+    /**
      * Getting parent node for add category
      */
     this.addNodeFormService.getNode().subscribe( node => {
-      /**
-       * State of modal window
-       */
-      this.addNodeFormService.state.subscribe( state => this.categoryModalState = state);
-
       this.categoryModelParent = node;
     });
 
