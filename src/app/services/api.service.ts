@@ -39,7 +39,7 @@ export class ApiService {
   getProducts(category: number): Observable<Array<IProduct>> {
     return of(pMock
       .map( product => new Product(product))
-      .filter(product => product.category == category)
+      .filter(product => product.category === category)
     );
   }
 
