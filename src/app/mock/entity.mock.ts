@@ -2,7 +2,7 @@
  * Mock Category
  *
  */
-export const categoryMock = [
+export let categoryMock = [
   {
     id: 1,
     name: 'Computers',

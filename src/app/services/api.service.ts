@@ -8,6 +8,9 @@ import { categoryMock } from '../mock/entity.mock';
 import Category from '../models/category.model';
 import {Node} from '../models/node.model';
 
+
+let mock = categoryMock;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -25,13 +28,15 @@ export class ApiService {
    * @returns {Observable<Array<ICategory>>}
    */
   getCategories(parent: number = null): Observable<Array<ICategory>> {
-    return of(categoryMock
+    return of(mock
       .map( entity => new Category(entity))
       .filter( entity => entity.parent === parent )
     );
   }
 
   addCategory(entity: ICategory, parent: Node<ICategory>) {
-    return of(parent.addChild(entity));
+    mock = [...mock, {...entity, parent: parent.entity.id, id: mock[mock.length - 1].id + 1}];
+    console.log(mock);
+    return of(mock);
   }
 }
