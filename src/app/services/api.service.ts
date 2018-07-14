@@ -6,6 +6,7 @@ import { ICategory } from '../app.interface';
 
 import { categoryMock } from '../mock/entity.mock';
 import Category from '../models/category.model';
+import {Node} from '../models/node.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,4 +31,7 @@ export class ApiService {
     );
   }
 
+  addCategory(entity: ICategory, parent: Node<ICategory>) {
+    return of(parent.addChild(entity));
+  }
 }

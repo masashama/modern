@@ -14,9 +14,9 @@ export class AppComponent implements OnInit {
   title = 'app';
   categories: Array<Node<ICategory>>;
 
-  addNodeAddFormState = true;
-  addNodeAddFormParentNode: Node<ICategory> = null;
   categoryModel = new Category();
+  categoryModelParent: Node<ICategory> = null;
+  categoryModalState = false;
 
   constructor(
     private apiService: ApiService,
@@ -32,15 +32,25 @@ export class AppComponent implements OnInit {
       this.categories = categories.map( category => new Node(category));
     });
 
+    /**
+     * Getting parent node for add category
+     */
     this.addNodeFormService.getNode().subscribe( node => {
-      this.addNodeAddFormState = true;
-      this.addNodeAddFormParentNode = node;
-      console.log('Add for node', node);
+      /**
+       * State of modal window
+       */
+      this.addNodeFormService.state.subscribe( state => this.categoryModalState = state);
+
+      this.categoryModelParent = node;
     });
 
   }
 
   onSubmitNewNode() {
-    this.addNodeFormService.setResult(this.categoryModel);
+    this.addNodeFormService.setResult(this.categoryModel, this.categoryModelParent);
+  }
+
+  closeModal(event: MouseEvent) {
+    this.addNodeFormService.state.next(false);
   }
 }

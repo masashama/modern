@@ -3,9 +3,9 @@
   <app-tree [nodes]="categories"></app-tree>
 </div>
 
-<div *ngIf="addNodeAddFormState" class="modal">
+<div *ngIf="categoryModalState" class="modal">
   <div class="modal-body">
-    <b *ngIf="addNodeAddFormParentNode">Add category for: {{ addNodeAddFormParentNode.entity.name }}</b>
+    <b *ngIf="categoryModelParent">Add category for: {{ categoryModelParent.entity.name }}</b>
     <hr>
     <form (submit)="onSubmitNewNode()" #categoryForm="ngForm">
       <div *ngIf="nameField.errors" [hidden]="categoryForm.valid || categoryForm.pristine">
@@ -16,7 +16,7 @@
              [(ngModel)]="categoryModel.name"
              [appCategoryNameValidator]="categoryModel.name" required>
       <button type="submit" [disabled]="!categoryForm.form.valid"> Okay </button>
-      <button type="button"> Exit </button>
+      <button type="button" (click)="closeModal($event)"> Exit </button>
     </form>
   </div>
 </div>

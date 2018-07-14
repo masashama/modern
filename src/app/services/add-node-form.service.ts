@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Subject} from 'rxjs';
 import {Node} from '../models/node.model';
 import {ICategory} from '../app.interface';
+import {ApiService} from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,14 @@ import {ICategory} from '../app.interface';
 export class AddNodeFormService {
 
   private parentNode = new Subject<Node<ICategory>>();
+  state = new Subject<boolean>();
 
-  constructor() { }
+  constructor(
+    private apiService: ApiService
+  ) { }
 
   callForm(node: Node<ICategory>) {
+    this.state.next(true);
     this.parentNode.next(node);
   }
 
@@ -20,7 +25,10 @@ export class AddNodeFormService {
     return this.parentNode;
   }
 
-  setResult(entity: ICategory) {
-    console.log('Result', entity);
+  setResult(entity: ICategory, parent: Node<ICategory>) {
+    this.apiService.addCategory(entity, parent).subscribe( result => {
+      this.parentNode.next(null);
+      this.state.next(false);
+    });
   }
 }
