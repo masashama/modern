@@ -1,0 +1,45 @@
+<form (submit)="onSubmit()" #productForm="ngForm" *ngIf="product">
+
+  <fieldset *ngIf="category">
+    Category: {{ category.name }}
+  </fieldset>
+
+  <fieldset>
+    <label>
+      <span>Продовольственный</span>
+      <input type="checkbox" name="isFood" [(ngModel)]="product.isFood">
+    </label>
+  </fieldset>
+
+  <fieldset>
+    <label>
+      <span>Наименнование</span>
+      <input type="text" name="name" [(ngModel)]="product.name">
+    </label>
+    <label>
+      <span>Цена</span>
+      <input type="number" name="cost" [(ngModel)]="product.cost">
+    </label>
+  </fieldset>
+
+  <fieldset *ngIf="product.isFood">
+    <label>
+      <span>Бренд</span>
+      <input type="text" name="brand" [(ngModel)]="product.brand">
+    </label>
+    <label>
+      <span>URL</span>
+      <input type="text" name="url" [(ngModel)]="product.url">
+    </label>
+    <label>
+      <span>Цвет</span>
+      <input type="text" name="color" [(ngModel)]="product.color">
+    </label>
+  </fieldset>
+
+  <fieldset>
+    <button type="submit">Сохранить</button>
+    <button type="button" (click)="onResetForm()">Отмена</button>
+  </fieldset>
+
+</form>

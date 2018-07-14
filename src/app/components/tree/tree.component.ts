@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Node } from '../../models/node.model';
-import {ApiService} from '../../services/api.service';
-import {AddNodeFormService} from '../../services/add-node-form.service';
-import {ICategory, IProduct} from '../../app.interface';
+import { ApiService } from '../../services/api.service';
+import { AddNodeFormService } from '../../services/add-node-form.service';
+import { ICategory, IProduct } from '../../app.interface';
+import { ProductFormService } from '../../services/product-form.service';
+
 
 
 @Component({
@@ -17,6 +19,7 @@ export class TreeComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private addNodeFormService: AddNodeFormService,
+    private productFormService: ProductFormService,
   ) {
 
     this.updateNode = this.updateNode.bind(this);
@@ -101,4 +104,40 @@ export class TreeComponent implements OnInit {
   }
 
 
+  /**
+   * Edit product
+   * @param {MouseEvent} event
+   * @param {Node<IProduct>} node
+   */
+  onEditProduct(event: MouseEvent, node: Node<IProduct>) {
+    const subscribe$ = this.productFormService.callForm(node.entity)
+      .subscribe( result => {
+        this.apiService.updateProduct(result).subscribe( product => {
+          console.log('Result', result);
+
+          // clear form
+          this.productFormService.product.next(null);
+          this.updateNode(node.getParent());
+        });
+
+        // unsubscribe from form
+        subscribe$.unsubscribe();
+      });
+  }
+
+  onAddProduct($event: MouseEvent, node: Node<ICategory>) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const subscribe$ = this.productFormService.callNewForm(node.entity)
+      .subscribe( result => {
+        this.apiService.addProduct(result).subscribe( product => {
+          this.productFormService.category.next(null);
+          this.updateNode(node);
+        });
+        subscribe$.unsubscribe();
+      });
+
+    console.log('Add product', node);
+  }
 }
