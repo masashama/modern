@@ -5,9 +5,18 @@
 
 <div *ngIf="addNodeAddFormState" class="modal">
   <div class="modal-body">
-    <b>Add category for: {{ addNodeAddFormParentNode.entity.name }}</b>
-    <form action="">
-      <input type="text" placeholder="Category name"> <button> Okay </button> <button> Exit </button>
+    <b *ngIf="addNodeAddFormParentNode">Add category for: {{ addNodeAddFormParentNode.entity.name }}</b>
+    <hr>
+    <form (submit)="onSubmitNewNode()" #categoryForm="ngForm">
+      <div *ngIf="nameField.errors" [hidden]="categoryForm.valid || categoryForm.pristine">
+        <div class="form-error" *ngIf="nameField.errors['required']">Field is required</div>
+        <div class="form-error" *ngIf="nameField.errors['categoryName']">{{ nameField.errors['categoryName'] }}</div>
+      </div>
+      <input type="text" placeholder="Category name" name="name" #nameField="ngModel"
+             [(ngModel)]="categoryModel.name"
+             [appCategoryNameValidator]="categoryModel.name" required>
+      <button type="submit" [disabled]="!categoryForm.form.valid"> Okay </button>
+      <button type="button"> Exit </button>
     </form>
   </div>
 </div>

@@ -8,10 +8,12 @@ export default class Category implements ICategory {
   name: string;
   parent: number;
 
-  constructor(category: ICategory) {
-    this.id = category.id;
-    this.name = category.name;
-    this.parent = category.parent;
+  constructor(category?: ICategory) {
+    if ( category ) {
+      this.id = category.id;
+      this.name = category.name;
+      this.parent = category.parent;
+    }
   }
 
 }

@@ -20,4 +20,7 @@ export class AddNodeFormService {
     return this.parentNode;
   }
 
+  setResult(entity: ICategory) {
+    console.log('Result', entity);
+  }
 }

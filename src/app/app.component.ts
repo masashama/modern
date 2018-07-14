@@ -3,6 +3,7 @@ import {ApiService} from './services/api.service';
 import {ICategory} from './app.interface';
 import {Node} from './models/node.model';
 import {AddNodeFormService} from './services/add-node-form.service';
+import Category from './models/category.model';
 
 @Component({
   selector: 'app-root',
@@ -13,8 +14,9 @@ export class AppComponent implements OnInit {
   title = 'app';
   categories: Array<Node<ICategory>>;
 
-  addNodeAddFormState = false;
+  addNodeAddFormState = true;
   addNodeAddFormParentNode: Node<ICategory> = null;
+  categoryModel = new Category();
 
   constructor(
     private apiService: ApiService,
@@ -38,4 +40,7 @@ export class AppComponent implements OnInit {
 
   }
 
+  onSubmitNewNode() {
+    this.addNodeFormService.setResult(this.categoryModel);
+  }
 }

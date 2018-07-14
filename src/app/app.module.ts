@@ -4,15 +4,19 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { TreeComponent } from './components/tree/tree.component';
+import { FormsModule } from '@angular/forms';
+import { CategoryNameValidatorDirective } from './category-name-validator.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TreeComponent
+    TreeComponent,
+    CategoryNameValidatorDirective
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
