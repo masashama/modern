@@ -3,6 +3,7 @@
  */
 export interface IProduct {
   id: number;
+  category: number;
   name: string;
   cost: number;
   isFood: boolean;

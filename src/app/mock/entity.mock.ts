@@ -55,4 +55,19 @@ export let categoryMock = [
   }
 ];
 
-export const productMock = [];
+export const productMock = [
+  {
+    id: 1,
+    name: 'Mouse',
+    cost: 1300.54,
+    isFood: false,
+    category: 1
+  },
+  {
+    id: 2,
+    name: 'Monitor',
+    cost: 5765.00,
+    isFood: false,
+    category: 1
+  }
+];
