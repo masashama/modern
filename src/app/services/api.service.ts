@@ -11,7 +11,7 @@ import { categoryMock, productMock } from '../mock/entity.mock';
 
 
 const mock = categoryMock;
-const pMock = productMock;
+let pMock = productMock;
 
 @Injectable({
   providedIn: 'root'
@@ -48,5 +48,19 @@ export class ApiService {
     const newEntity = {...entity, id: newId, parent: parent.entity.id};
     mock.push(newEntity);
     return of(newEntity);
+  }
+
+  updateProduct(result: IProduct) {
+    const updatedProduct = {...result};
+    pMock = pMock.map( product => {
+      if (result.id === product.id) {
+        return updatedProduct;
+      } else {
+        return product;
+      }
+    });
+
+    return of(updatedProduct);
+
   }
 }

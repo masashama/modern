@@ -3,7 +3,7 @@
   <li *ngFor="let node of nodes">
     <div class="node" [style.paddingLeft]="(node.level * 8) + 'px'" *ngIf="node.entity.hasOwnProperty('isFood'); else categoryNode">
        - {{ node.entity.name }}
-      <span class="node-add" (click)="onAddNodeClick($event, node)">edit</span>
+      <span class="node-add" (click)="onEditProduct($event, node)">edit</span>
     </div>
     <ng-template #categoryNode>
       <div class="node" [style.paddingLeft]="(node.level * 8) + 'px'" (click)="onNodeClick($event, node)">
