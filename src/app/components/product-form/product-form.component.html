@@ -14,7 +14,13 @@
   <fieldset>
     <label>
       <span>Наименнование</span>
-      <input type="text" name="name" [(ngModel)]="product.name">
+      <input type="text" name="name" #nameField="ngModel" [(ngModel)]="product.name" [appCategoryNameValidator]="product.name" required #spy>
+      <div class="form-error" [hidden]="nameField.valid || nameField.pristine">
+        <span *ngIf="nameField.errors">
+          <span *ngIf="nameField.errors['required']">Обязательное</span>
+          <span *ngIf="nameField.errors['categoryName']">Нельзя кирилицу и -</span>
+        </span>
+      </div>
     </label>
     <label>
       <span>Цена</span>
@@ -38,8 +44,11 @@
   </fieldset>
 
   <fieldset>
-    <button type="submit">Сохранить</button>
+    <button type="submit" [disabled]="!productForm.valid">Сохранить</button>
     <button type="button" (click)="onResetForm()">Отмена</button>
   </fieldset>
+    <pre>
+    {{ spy.className | json }}
+    </pre>
 
 </form>
