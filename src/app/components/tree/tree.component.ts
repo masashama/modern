@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { AddNodeFormService } from '../../services/add-node-form.service';
 import { ICategory, IProduct } from '../../app.interface';
 import { ProductFormService } from '../../services/product-form.service';
+import {forkJoin} from 'rxjs';
 
 
 
@@ -37,6 +38,10 @@ export class TreeComponent implements OnInit {
   onNodeClick(event: MouseEvent, node: Node<any>) {
     event.preventDefault();
     event.stopPropagation();
+
+    // for clearing before request
+    node.setChildren([]);
+
     this.openNode(node);
   }
 
@@ -48,7 +53,9 @@ export class TreeComponent implements OnInit {
   onAddNodeClick(event: MouseEvent, node: Node<any>): void {
     event.preventDefault();
     event.stopPropagation();
+
     const subscribe$ = this.addNodeFormService.callForm(node).subscribe(entity => {
+      console.log('New Entity');
       this.updateNode(node);
 
       // unsubscribe form form
@@ -62,8 +69,9 @@ export class TreeComponent implements OnInit {
    * @param {Node<any>} node
    */
   private updateNode(node: Node<any>) {
-    console.log('Node for update', node);
-    node.setChildren(this.fetchChildNodes(node));
+    this.apiService.getCategories(node.entity.id).subscribe( categories => {
+      node.setChildren(categories);
+    });
     if ( !node.isOpen ) {
       node.isOpen = true;
     }
@@ -79,7 +87,14 @@ export class TreeComponent implements OnInit {
      * else close node
      */
     if ( !node.isOpen ) {
-      node.setChildren(this.fetchChildNodes(node));
+      const categories$ = this.apiService.getCategories(node.entity.id);
+      const products$ = this.apiService.getProducts( node.entity.id );
+
+      // join stream request
+      forkJoin(categories$, products$)
+        .subscribe( ([categories, products]) =>
+          node.setChildren([...categories, ...products])
+        );
       node.isOpen = true;
     } else {
       node.isOpen = false;
@@ -88,19 +103,22 @@ export class TreeComponent implements OnInit {
 
   /**
    * Fetch Categories and Products return merged array
+   * @deprecated
    * @param {Node<any>} node
    * @returns {Array<IProduct | ICategory>}
    */
   private fetchChildNodes(node: Node<any>): Array<IProduct|ICategory> {
     let _categories = [];
-    let _products = [];
+
     this.apiService.getCategories(node.entity.id).subscribe( categories => {
+      console.log(categories);
       _categories = categories;
     });
-    this.apiService.getProducts(node.entity.id).subscribe( products => {
-      _products = products;
-    });
-    return [..._categories, ..._products];
+    // this.apiService.getProducts(node.entity.id).subscribe( products => {
+    //   _products = products;
+    // });
+
+    return _categories;
   }
 
 

@@ -51,7 +51,9 @@ export class Node<T> {
    * @param {Array<T>} entities
    */
   setChildren(entities: Array<any>): void {
-    this.children = entities.map( entity => new Node<T>(entity, this)).sort((a, b) => a.entity instanceof Category ? -1 : 1 );
+    this.children = entities
+      .map( entity => new Node<T>(entity, this))
+      .sort((a, b) => a.entity.hasOwnProperty('isFood') ? 1 : -1 );
   }
 
   get hasChildren(): boolean {
