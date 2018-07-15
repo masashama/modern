@@ -4,7 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { AddNodeFormService } from '../../services/add-node-form.service';
 import { ICategory, IProduct } from '../../app.interface';
 import { ProductFormService } from '../../services/product-form.service';
-import {forkJoin} from 'rxjs';
+import {forkJoin, Observable, Subscription} from 'rxjs';
 
 
 
@@ -16,6 +16,9 @@ import {forkJoin} from 'rxjs';
 export class TreeComponent implements OnInit {
 
   @Input() nodes: Node<any>;
+
+  private editSubscribe$: Subscription;
+  private addSubscription$: Subscription;
 
   constructor(
     private apiService: ApiService,
@@ -139,7 +142,12 @@ export class TreeComponent implements OnInit {
 
     // costil by sasha
     node.entity.category = node.getParent().entity.id;
-    const subscribe$ = this.productFormService.callForm(node.entity)
+
+    if ( this.editSubscribe$ ) {
+      this.editSubscribe$.unsubscribe();
+    }
+
+    this.editSubscribe$ = this.productFormService.callForm(node.entity)
       .subscribe( result => {
         const editSubscribe$ = this.apiService.updateProduct(result).subscribe( product => {
 
@@ -150,7 +158,7 @@ export class TreeComponent implements OnInit {
         });
 
         // unsubscribe from form
-        subscribe$.unsubscribe();
+        this.editSubscribe$.unsubscribe();
       });
   }
 
@@ -163,7 +171,11 @@ export class TreeComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    const subscribe$ = this.productFormService.callNewForm(node.entity)
+    if ( this.addSubscription$ ) {
+      this.addSubscription$.unsubscribe();
+    }
+
+    this.addSubscription$ = this.productFormService.callNewForm(node.entity)
       .subscribe( result => {
         const addSubscribe$ = this.apiService.addProduct(result).subscribe( product => {
 
@@ -171,7 +183,7 @@ export class TreeComponent implements OnInit {
           this.productFormService.clearForm();
           this.updateNode(node);
           addSubscribe$.unsubscribe();
-          subscribe$.unsubscribe();
+          this.addSubscription$.unsubscribe();
         });
 
       });

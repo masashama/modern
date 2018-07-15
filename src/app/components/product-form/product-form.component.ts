@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ProductFormService} from '../../services/product-form.service';
 import {ICategory, IProduct} from '../../app.interface';
 import Product from '../../models/product.model';
@@ -14,13 +14,25 @@ export class ProductFormComponent implements OnInit {
   product: IProduct;
   category: ICategory;
 
+  private s1$;
+  private s2$;
+
   constructor(
     private productFormService: ProductFormService,
   ) { }
 
   ngOnInit() {
+    this.productFormService.must_update.subscribe(r => {
+      this.product = null;
+      this._product = null;
+      this.category = null;
+      this.subscribe();
+    });
+    this.subscribe();
+  }
 
-    this.productFormService.product.subscribe( product => {
+  subscribe() {
+    this.s1$ = this.productFormService.product.subscribe( product => {
       if ( product ) {
         this._product = product;
         this.product = new Product(product);
@@ -29,8 +41,7 @@ export class ProductFormComponent implements OnInit {
       }
     });
 
-    this.productFormService.category.subscribe( category => {
-
+    this.s2$ = this.productFormService.category.subscribe( category => {
       if ( category ) {
         this.category = category;
         this.product = new Product();
@@ -39,13 +50,11 @@ export class ProductFormComponent implements OnInit {
       }
 
     });
-
   }
 
   private clearForm() {
-    this.category = null;
-    this._product = null;
-    this.product = null;
+    this.productFormService.clearForm();
+    this.subscribe();
   }
 
   onSubmit() {
@@ -59,4 +68,6 @@ export class ProductFormComponent implements OnInit {
     this.clearForm();
     this.productFormService.clearForm();
   }
+
+
 }

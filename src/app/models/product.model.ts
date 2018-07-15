@@ -11,7 +11,7 @@ export default class Product implements IProduct {
   category: number;
   isFood: boolean = false;
   brand: string;
-  color: string;
+  color: string = 'BLACK';
   url: string;
 
   constructor(product?: IProduct) {

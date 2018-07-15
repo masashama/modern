@@ -44,14 +44,21 @@
     </label>
     <label>
       <span>Цвет</span>
-      <input type="text" name="color" [(ngModel)]="product.color">
+      <select name="color" [value]="product.color" [(ngModel)]="product.color">
+        <option value="RED">Красный</option>
+        <option value="GREEN">Белый</option>
+        <option value="BLACK">Черный</option>
+        <option value="SALMON">Лососевый xD</option>
+        <option value="GREEN">Зеленый</option>
+      </select>
+
     </label>
   </fieldset>
 
   <fieldset>
     <button type="submit" [disabled]="!productForm.valid">Сохранить</button>
-    <!-- Намудрил с subscribe поэтому убераю =( -->
-    <!--<button type="button" (click)="onResetForm()">Отмена</button>-->
+     Намудрил с subscribe поэтому убераю =(
+    <button type="button" (click)="onResetForm()">Отмена</button>
     <span>*обязательные</span>
   </fieldset>
 

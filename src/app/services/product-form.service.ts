@@ -11,10 +11,13 @@ export class ProductFormService {
   result: Subject<IProduct> = new Subject<IProduct>();
   category: Subject<ICategory> = new Subject<ICategory>();
 
+  must_update: Subject<boolean> = new Subject<boolean>();
+
   constructor() { }
 
   callForm(product: IProduct): Observable<IProduct> {
     this.product.next(product);
+    console.log('callform');
     return this.result;
   }
 
@@ -22,9 +25,12 @@ export class ProductFormService {
     this.category.next(category);
     return this.result;
   }
-  
+
   clearForm() {
-    this.category.next(null);
+    this.category = new Subject<ICategory>();
+    this.result = new Subject<IProduct>();
+    this.product = new Subject<IProduct>();
+    this.must_update.next(true);
   }
 
 }
