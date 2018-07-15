@@ -24,7 +24,7 @@
     </label>
     <label>
       <span>Цена</span>
-      <input type="number" name="cost" [(ngModel)]="product.cost">
+      <input type="number" name="cost" [(ngModel)]="product.cost" min="0">
     </label>
   </fieldset>
 
@@ -53,8 +53,5 @@
     <button type="button" (click)="onResetForm()">Отмена</button>
     <span>*обязательные</span>
   </fieldset>
-    <pre>
-    {{ spy.className | json }}
-    </pre>
 
 </form>
