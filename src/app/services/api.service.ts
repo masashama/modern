@@ -60,4 +60,8 @@ export class ApiService {
   removeCategory(id: number): Observable<any> {
     return this.httpService.get(`/api/category/delete/${id}`);
   }
+
+  removeProduct(id: number): Observable<any> {
+    return this.httpService.get(`/api/product/delete/${id}`);
+  }
 }

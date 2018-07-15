@@ -191,4 +191,14 @@ export class TreeComponent implements OnInit {
       }
     })
   }
+
+  onRemoveProduct($event, node: Node<IProduct>) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.apiService.removeProduct(node.entity.id).subscribe( r => {
+      this.updateNode(node.getParent());
+    })
+
+  }
 }
