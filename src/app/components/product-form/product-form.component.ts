@@ -56,6 +56,7 @@ export class ProductFormComponent implements OnInit {
   }
 
   onResetForm() {
-    this.productFormService.category.next(null);
+    this.clearForm();
+    this.productFormService.clearForm();
   }
 }

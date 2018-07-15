@@ -110,13 +110,15 @@ export class TreeComponent implements OnInit {
    * @param {Node<IProduct>} node
    */
   onEditProduct(event: MouseEvent, node: Node<IProduct>) {
+    event.preventDefault();
+    event.stopPropagation();
+
     const subscribe$ = this.productFormService.callForm(node.entity)
       .subscribe( result => {
         this.apiService.updateProduct(result).subscribe( product => {
-          console.log('Result', result);
 
           // clear form
-          this.productFormService.product.next(null);
+          this.productFormService.clearForm();
           this.updateNode(node.getParent());
         });
 
@@ -125,6 +127,11 @@ export class TreeComponent implements OnInit {
       });
   }
 
+  /**
+   * Add new product to category
+   * @param {MouseEvent} $event
+   * @param {Node<ICategory>} node
+   */
   onAddProduct($event: MouseEvent, node: Node<ICategory>) {
     event.preventDefault();
     event.stopPropagation();
@@ -132,7 +139,9 @@ export class TreeComponent implements OnInit {
     const subscribe$ = this.productFormService.callNewForm(node.entity)
       .subscribe( result => {
         this.apiService.addProduct(result).subscribe( product => {
-          this.productFormService.category.next(null);
+
+          // clear form
+          this.productFormService.clearForm();
           this.updateNode(node);
         });
         subscribe$.unsubscribe();

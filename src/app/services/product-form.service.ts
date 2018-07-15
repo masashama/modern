@@ -22,5 +22,9 @@ export class ProductFormService {
     this.category.next(category);
     return this.result;
   }
+  
+  clearForm() {
+    this.category.next(null);
+  }
 
 }
