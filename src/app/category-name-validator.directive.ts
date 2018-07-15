@@ -12,7 +12,7 @@ export class CategoryNameValidatorDirective implements Validator {
   constructor() { }
 
   validate(c: AbstractControl): ValidationErrors | null {
-    return /[^а-яА-Я-]+/.test(this.categoryName) ? null : {'categoryName': 'Name must be [^а-яА-Я-]'};
+    return /[^а-яА-Я-]+/.test(c.value) ? null : {'categoryName': 'Name must be [^а-яА-Я-]'};
   }
 
 }

@@ -13,10 +13,10 @@
 
   <fieldset>
     <label>
-      <span>Наименнование</span>
-      <input type="text" name="name" #nameField="ngModel" [(ngModel)]="product.name" [appCategoryNameValidator]="product.name" required #spy>
-      <div class="form-error" [hidden]="nameField.valid || nameField.pristine">
-        <span *ngIf="nameField.errors">
+      <span>Наименнование*</span>
+      <input type="text" name="name" #nameField="ngModel" appCategoryNameValidator=" {{ product.name }}"  [(ngModel)]="product.name" required #spy>
+      <div  [hidden]="nameField.pristine || nameField.valid">
+        <span class="form-error" *ngIf="nameField.errors">
           <span *ngIf="nameField.errors['required']">Обязательное</span>
           <span *ngIf="nameField.errors['categoryName']">Нельзя кирилицу и -</span>
         </span>
@@ -35,7 +35,12 @@
     </label>
     <label>
       <span>URL</span>
-      <input type="text" name="url" [(ngModel)]="product.url">
+      <input type="text" name="url" #urlForm="ngModel" appUrlValidator=" {{ product.url }}" [(ngModel)]="product.url">
+      <div [hidden]="urlForm.valid || urlForm.pristine">
+        <span class="form-error" *ngIf="urlForm.errors">
+          <span *ngIf="urlForm.errors['url']">{{ urlForm.errors['url'] }}</span>
+        </span>
+      </div>
     </label>
     <label>
       <span>Цвет</span>
@@ -46,6 +51,7 @@
   <fieldset>
     <button type="submit" [disabled]="!productForm.valid">Сохранить</button>
     <button type="button" (click)="onResetForm()">Отмена</button>
+    <span>*обязательные</span>
   </fieldset>
     <pre>
     {{ spy.className | json }}
