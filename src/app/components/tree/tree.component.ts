@@ -167,4 +167,20 @@ export class TreeComponent implements OnInit {
 
     console.log('Add product', node);
   }
+
+  /**
+   * Delete category
+   * @param {MouseEvent} $vent
+   * @param {Node<ICategory>} node
+   */
+  onRemoveNode($vent: MouseEvent, node: Node<ICategory>) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.apiService.removeCategory(node.entity.id).subscribe( r => {
+      let parent: Node<ICategory>;
+      if ( parent = node.getParent() ) {
+        this.updateNode(parent);
+      }
+    })
+  }
 }

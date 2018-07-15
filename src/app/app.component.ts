@@ -29,9 +29,16 @@ export class AppComponent implements OnInit {
      * Fetch categories from api service
      */
     this.apiService.getCategories().subscribe(categories => {
-      this.categories = categories.map( category => {
-        return new Node(category);
-      });
+      const root = new Node(new Category({
+        id: null,
+        name: 'Category',
+        parent: null,
+      }));
+      root.setChildren(categories);
+      console.log('ROOT', root);
+      root.isOpen = true;
+
+       this.categories = [root];
     });
 
     /**

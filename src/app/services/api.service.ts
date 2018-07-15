@@ -8,6 +8,7 @@ import Category from '../models/category.model';
 import Product from '../models/product.model';
 
 import { categoryMock, productMock } from '../mock/entity.mock';
+import {a} from '@angular/core/src/render3';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -65,5 +66,9 @@ export class ApiService {
     const product = {...result};
     pMock.push(product);
     return of(product);
+  }
+
+  removeCategory(id: number): Observable<any> {
+    return this.httpService.get(`/api/category/delete/${id}`);
   }
 }

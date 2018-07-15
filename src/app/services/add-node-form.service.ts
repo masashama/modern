@@ -22,7 +22,6 @@ export class AddNodeFormService {
   }
 
   callForm(node: Node<ICategory>): Observable<ICategory> {
-    console.log('Node click', node);
     this.state.next(true);
     this.parentNode.next(node);
     return this.result;
