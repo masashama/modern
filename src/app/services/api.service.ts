@@ -49,7 +49,6 @@ export class ApiService {
   }
 
   updateProduct(result: IProduct) {
-    console.log('UPDATE', {...result});
     return this.httpService.post<IProduct>(`/api/product/${result.category}`, {...result});
   }
 
@@ -63,5 +62,9 @@ export class ApiService {
 
   removeProduct(id: number): Observable<any> {
     return this.httpService.get(`/api/product/delete/${id}`);
+  }
+
+  countTree(id: any) {
+    return this.httpService.get(`/api/count/tree/${id}`);
   }
 }

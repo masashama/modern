@@ -11,6 +11,7 @@
       <div class="node" [style.paddingLeft]="(node.level * 8) + 'px'" (click)="onNodeClick($event, node)">
         {{ node.entity.name }}
         <span class="node-add" >
+          <span (click)="onCountTree($event, node)">$</span>
           <span (click)="onAddProduct($event, node)"  *ngIf="node.entity.id">+p</span>
           <span (click)="onAddNodeClick($event, node)">+c</span>
           <span (click)="onRemoveNode($event, node)" *ngIf="node.entity.id">x</span>

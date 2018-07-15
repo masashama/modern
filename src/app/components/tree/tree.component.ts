@@ -141,11 +141,12 @@ export class TreeComponent implements OnInit {
     node.entity.category = node.getParent().entity.id;
     const subscribe$ = this.productFormService.callForm(node.entity)
       .subscribe( result => {
-        this.apiService.updateProduct(result).subscribe( product => {
+        const editSubscribe$ = this.apiService.updateProduct(result).subscribe( product => {
 
           // clear form
           this.productFormService.clearForm();
           this.updateNode(node.getParent());
+          editSubscribe$.unsubscribe();
         });
 
         // unsubscribe from form
@@ -164,13 +165,15 @@ export class TreeComponent implements OnInit {
 
     const subscribe$ = this.productFormService.callNewForm(node.entity)
       .subscribe( result => {
-        this.apiService.addProduct(result).subscribe( product => {
+        const addSubscribe$ = this.apiService.addProduct(result).subscribe( product => {
 
           // clear form
           this.productFormService.clearForm();
           this.updateNode(node);
+          addSubscribe$.unsubscribe();
+          subscribe$.unsubscribe();
         });
-        subscribe$.unsubscribe();
+
       });
 
     console.log('Add product', node);
@@ -184,12 +187,13 @@ export class TreeComponent implements OnInit {
   onRemoveNode($vent: MouseEvent, node: Node<ICategory>) {
     event.preventDefault();
     event.stopPropagation();
-    this.apiService.removeCategory(node.entity.id).subscribe( r => {
+    const $subscribe = this.apiService.removeCategory(node.entity.id).subscribe( r => {
       let parent: Node<ICategory>;
       if ( parent = node.getParent() ) {
         this.updateNode(parent);
+        $subscribe.unsubscribe();
       }
-    })
+    });
   }
 
   onRemoveProduct($event, node: Node<IProduct>) {
@@ -200,5 +204,11 @@ export class TreeComponent implements OnInit {
       this.updateNode(node.getParent());
     })
 
+  }
+
+  onCountTree($event, node) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.apiService.countTree(node.entity.id).subscribe( r => alert(r));
   }
 }

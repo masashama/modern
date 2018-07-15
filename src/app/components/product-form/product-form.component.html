@@ -35,7 +35,7 @@
     </label>
     <label>
       <span>URL</span>
-      <input type="text" name="url" #urlForm="ngModel" appUrlValidator=" {{ product.url }}" [(ngModel)]="product.url">
+      <input type="text" name="url" #urlForm="ngModel" appUrlValidator="{{ product.url }}" [(ngModel)]="product.url">
       <div [hidden]="urlForm.valid || urlForm.pristine">
         <span class="form-error" *ngIf="urlForm.errors">
           <span *ngIf="urlForm.errors['url']">{{ urlForm.errors['url'] }}</span>
@@ -50,7 +50,8 @@
 
   <fieldset>
     <button type="submit" [disabled]="!productForm.valid">Сохранить</button>
-    <button type="button" (click)="onResetForm()">Отмена</button>
+    <!-- Намудрил с subscribe поэтому убераю =( -->
+    <!--<button type="button" (click)="onResetForm()">Отмена</button>-->
     <span>*обязательные</span>
   </fieldset>
 

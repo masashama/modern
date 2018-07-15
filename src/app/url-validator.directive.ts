@@ -12,7 +12,7 @@ export class UrlValidatorDirective implements Validator {
   constructor() { }
 
   validate(c: AbstractControl): ValidationErrors | null {
-    if (!this.url) {
+    if (! c.value ) {
       return null;
     }
     return /^((https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?)*$/.test(c.value)
