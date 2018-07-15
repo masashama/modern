@@ -69,9 +69,15 @@ export class TreeComponent implements OnInit {
    * @param {Node<any>} node
    */
   private updateNode(node: Node<any>) {
-    this.apiService.getCategories(node.entity.id).subscribe( categories => {
-      node.setChildren(categories);
-    });
+    const categories$ = this.apiService.getCategories(node.entity.id);
+    const products$ = this.apiService.getProducts( node.entity.id );
+
+    // join stream request
+    forkJoin(categories$, products$)
+      .subscribe( ([categories, products]) =>
+        node.setChildren([...categories, ...products])
+      );
+
     if ( !node.isOpen ) {
       node.isOpen = true;
     }
@@ -131,6 +137,8 @@ export class TreeComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
+    // costil by sasha
+    node.entity.category = node.getParent().entity.id;
     const subscribe$ = this.productFormService.callForm(node.entity)
       .subscribe( result => {
         this.apiService.updateProduct(result).subscribe( product => {

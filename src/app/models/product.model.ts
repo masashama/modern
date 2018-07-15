@@ -9,7 +9,7 @@ export default class Product implements IProduct {
   name: string;
   cost: number;
   category: number;
-  isFood: boolean;
+  isFood: boolean = false;
   brand: string;
   color: string;
   url: string;
@@ -27,7 +27,6 @@ export default class Product implements IProduct {
         this.brand = product.brand;
         this.url = product.url;
       }
-
 
     }
   }
